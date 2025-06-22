@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* test_env/index.css - Base styles for the test page */
+/* This file should NOT be modified by the html-refactor script */
+
+body {
+    /* Base body styles, some might be overridden by inline styles initially */
+    line-height: 1.5;
+    color: #333; /* Default text color */
+}
+
+h1, h2 {
+    /* Base heading styles */
+    margin-top: 0;
+    margin-bottom: 0.75em;
+}
+
+code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9em;
+}
+
+/* This class is defined here and should remain */
+.important-note {
+    padding: 12px;
+    background-color: #fff3cd; /* A light yellow */
+    border: 1px solid #ffeeba; /* A complementary border */
+    border-left-width: 5px;
+    border-left-color: #ffc107; /* A more prominent left border */
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.existing-class {
+    /* Style for elements that already have a class */
+    text-decoration: underline;
+    text-decoration-color: #007bff;
+    font-size: 1.05em;
+}
+
+#no-style-attribute {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    margin-top: 15px;
+    color: #6c757d;
+}

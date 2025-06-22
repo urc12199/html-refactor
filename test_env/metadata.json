@@ -1,0 +1,9 @@
+
+{
+  "name": "html-refactor-test_env",
+  "description": "Development and testing UI for the html-refactor CLI tool. Contains sample HTML, CSS, and TSX files for testing the script's behavior.",
+  "version": "1.0.0",
+  "private": true,
+  "notes": "This environment is for testing the html-refactor script's capabilities on various HTML structures. The script itself does not process this metadata.json file or .tsx files for refactoring purposes.",
+  "requestFramePermissions": []
+}

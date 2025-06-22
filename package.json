@@ -4,9 +4,9 @@
   "description": "A CLI tool to refactor HTML by extracting inline CSS and JavaScript into separate files.",
   "main": "html-refactor.js",
   "bin": {
-    "html-refactor": "./html-refactor.js",
-    "href": "./html-refactor.js",
-    "htref": "./html-refactor.js"
+    "html-refactor": "html-refactor.js",
+    "href": "html-refactor.js",
+    "htref": "html-refactor.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
