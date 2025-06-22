@@ -1,0 +1,52 @@
+{
+  "name": "html-refactor",
+  "version": "1.0.0",
+  "description": "A CLI tool to refactor HTML by extracting inline CSS and JavaScript into separate files.",
+  "main": "html-refactor.js",
+  "bin": {
+    "html-refactor": "./html-refactor.js",
+    "href": "./html-refactor.js",
+    "htref": "./html-refactor.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Linting not yet configured\""
+  },
+  "keywords": [
+    "html",
+    "refactor",
+    "css",
+    "javascript",
+    "cli",
+    "automation",
+    "inline-styles",
+    "inline-scripts",
+    "code-quality"
+  ],
+  "author": "Ruthvik Upputuri",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuthvikUpputuri/html-refactor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RuthvikUpputuri/html-refactor/issues"
+  },
+  "homepage": "https://github.com/RuthvikUpputuri/html-refactor#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "cheerio": "^1.0.0-rc.12",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "inquirer": "^8.2.4",
+    "yargs": "^17.7.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "html-refactor.js",
+    "README.md",
+    "LICENSE"
+  ]
+}
