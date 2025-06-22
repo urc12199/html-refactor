@@ -13,6 +13,9 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # Node.js
 node_modules/
 
+# Ignore all text file
+*.txt
+
 # Runtime data
 pids
 *.pid

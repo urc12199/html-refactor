@@ -40,6 +40,10 @@ This tool aims to streamline a common but often tedious part of web development 
 *   Node.js (v14.x or later recommended)
 *   npm (usually comes with Node.js)
 
+### Note 
+
+`chalk` from v5 is ESM-only. If your project is CommonJS *(which `refactor-html.js` currently is)*, you'd typically use `chalk@4`. For `inquirer` v9 is ESM. Your current script uses `require`, so ensure you have CommonJS compatible versions, or plan to refactor to ESM if using latest versions of these libraries.
+
 ## Installation
 
 You can install `html-refactor` globally or as a development dependency in your project.
@@ -61,7 +65,7 @@ npm install --save-dev html-refactor
 If installed locally, you can run it using `npx html-refactor` (or `npx href`, `npx htref`) or by adding it to your `package.json` scripts:
 
 ```json
-// package.json
+ // package.json
 "scripts": {
   "refactor": "html-refactor"
 }
@@ -236,12 +240,13 @@ Now, when you browse your site, the HTML will correctly link to the CSS processe
 *   **Error Recovery:** Relies on Cheerio for HTML parsing. While Cheerio is robust, extremely broken HTML might not be parsed as intended, potentially leading to incomplete extractions.
 *   **No Dependency Resolution:** Does not analyze or resolve dependencies within the extracted JavaScript code.
 *   **CSS Specificity and Order:** While CSS from `<style>` tags and `style` attributes is extracted, the order of linked stylesheets and the specificity of new rules might need review, especially in complex projects. It's recommended to link the extracted CSS *before* main stylesheets if the extracted styles are meant to be overridden. The tool appends the link to the `<head>`.
-*   **FUTURE VERSIONS WILL SUPPORT ALL ABOVE FEATURES.
-*   **Future versions will also include auto build and compile inline css based on tailwind postCSS
-*   **
+*   **FUTURE VERSIONS WILL SUPPORT ALL ABOVE FEATURES**.
+*   **Future versions will also include auto build and compile inline css based on tailwind postCSS**
 
+   
+## Contributing  
 
-## Contributing
+  For detailed contributions look for `Contributions.md` file in the root directory
 
 Contributions are welcome! Please feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/RuthvikUpputuri/html-refactor).
 
