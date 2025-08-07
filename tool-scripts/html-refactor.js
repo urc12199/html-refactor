@@ -553,9 +553,30 @@ async function interactiveConfigSetup(currentProjectRoot, existingConfig = null,
  * Generates a unique CSS class name for extracted inline styles.
  * @returns {string} A unique CSS class name (e.g., 'extracted-inline-style-1').
  */
-function generateUniqueCssClassName() {
-  uniqueClassCounter++;
-  return `extracted-inline-style-${uniqueClassCounter}`;
+/**
+ * Normalizes a CSS style string to ensure consistent ordering of properties for deduplication.
+ * @param {string} style - The raw CSS style string (e.g., 'color: blue; font-weight: bold;').
+ * @returns {string} A normalized style string (e.g., 'color:blue;font-weight:bold').
+ */
+function normalizeStyleString(style) {
+  if (!style) return '';
+  return style
+    .split(';')
+    .map(s => s.trim())
+    .filter(s => s)
+    .sort()
+    .join(';');
+}
+
+/**
+ * Generates a unique and deterministic CSS class name from a style string.
+ * Uses a hash of the normalized style to ensure the same style always gets the same class.
+ * @param {string} normalizedStyle - The normalized style string from normalizeStyleString.
+ * @returns {string} A short, unique class name like 'css-a1b2c3d4'.
+ */
+function generateClassFromStyle(normalizedStyle) {
+    const hash = crypto.createHash('sha256').update(normalizedStyle).digest('hex');
+    return `css-${hash.substring(0, 8)}`;
 }
 
 /**
@@ -652,8 +673,9 @@ function generateCssFileBaseName(htmlFilePath, config) {
 async function extractCssFromHtml($, htmlFilePath, htmlFileBaseName) {
   let allExtractedCss = '';
   let cssModifiedInHtml = false;
+  const styleMap = new Map(); // To track unique styles and their generated classes
 
-  // 1. Extract from <style> tags
+  // 1. Extract from <style> tags (these are not deduplicated, as they are presumed to be unique blocks)
   $('style').each((index, element) => {
     const $styleTag = $(element);
     const styleContent = $styleTag.html();
@@ -665,21 +687,32 @@ async function extractCssFromHtml($, htmlFilePath, htmlFileBaseName) {
     }
   });
 
-  // 2. Extract from style attributes
+  // 2. Extract and deduplicate from style attributes
   $('[style]').each((index, element) => {
     const $element = $(element);
-    const inlineStyle = $element.attr('style');
-    if (inlineStyle && inlineStyle.trim() !== '') {
-      const className = generateUniqueCssClassName(); // Generate a unique class
-      $element.addClass(className); // Add class to the element
-      $element.removeAttr('style'); // Remove original style attribute
-      // Ensure style rules end with a semicolon
-      const trimmedStyle = inlineStyle.trim();
-      const styleRule = trimmedStyle.endsWith(';') ? trimmedStyle : `${trimmedStyle};`;
-      allExtractedCss += `\n/* Style for .${className} from element in ${htmlFileBaseName}.html */\n.${className} {\n  ${styleRule}\n}\n`;
-      cssModifiedInHtml = true;
-      loggerInstance.debug(`Extracted inline style from an element in ${htmlFileBaseName}.html to class .${className}.`);
+    const rawStyle = $element.attr('style');
+    if (!rawStyle || !rawStyle.trim()) return;
+
+    const normalizedStyle = normalizeStyleString(rawStyle);
+    let className;
+
+    if (styleMap.has(normalizedStyle)) {
+      // This exact style has been seen before, reuse the class.
+      className = styleMap.get(normalizedStyle);
+      loggerInstance.debug(`Reusing class '${className}' for identical style.`);
+    } else {
+      // This is a new, unique style.
+      className = generateClassFromStyle(normalizedStyle);
+      styleMap.set(normalizedStyle, className);
+
+      // Add the new rule to our collected CSS
+      const styleRule = normalizedStyle.replace(/;/g, ';\n  '); // Pretty print
+      allExtractedCss += `\n/* Style for .${className} from ${htmlFileBaseName}.html */\n.${className} {\n  ${styleRule}\n}\n`;
     }
+
+    $element.addClass(className);
+    $element.removeAttr('style');
+    cssModifiedInHtml = true;
   });
 
   return { cssContent: allExtractedCss.trim(), cssModified: cssModifiedInHtml };
