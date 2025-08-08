@@ -41,14 +41,14 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
+    "chokidar": "^3.5.3",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
-    "inquirer": "^8.2.4",
-    "yargs": "^17.7.2",
-    "chokidar": "^3.5.3",
     "imagemin": "^8.0.1",
     "imagemin-svgo": "^10.0.1",
-    "terser": "^5.15.1"
+    "inquirer": "^8.2.4",
+    "terser": "^5.15.1",
+    "yargs": "^17.7.2"
   },
   "engines": {
     "node": ">=14.0.0"
